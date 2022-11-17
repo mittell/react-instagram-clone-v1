@@ -10,10 +10,10 @@ export default function UserProfile({ user }) {
 	const initialState = {
 		profile: {},
 		photosCollection: [],
-		followersCount: 0,
+		followerCount: 0,
 	};
 
-	const [{ profile, photosCollection, followers }, dispatch] = useReducer(
+	const [{ profile, photosCollection, followerCount }, dispatch] = useReducer(
 		reducer,
 		initialState
 	);
@@ -36,7 +36,12 @@ export default function UserProfile({ user }) {
 
 	return (
 		<>
-			<Header />
+			<Header
+				photosCount={photosCollection ? photosCollection.length : 0}
+				profile={profile}
+				followerCount={followerCount}
+				setFollowerCount={dispatch}
+			/>
 			<Photos photos={photosCollection} />
 			<p>Hello {user.username}</p>
 		</>
