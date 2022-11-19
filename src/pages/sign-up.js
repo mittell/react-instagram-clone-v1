@@ -54,9 +54,6 @@ export default function SignUp() {
 			}
 		} else {
 			setUsername('');
-			setFullName('');
-			setEmailAddress('');
-			setPassword('');
 			setError('That username is already taken, please try another');
 		}
 	};
