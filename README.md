@@ -2,6 +2,10 @@
 
 An Instagram clone built with React.
 
+## Demo
+
+[Link](https://gregarious-douhua-388eb4.netlify.app/)
+
 ## Getting Started
 
 Clone this repo, and make sure to run the commands mentioned below from your terminal within the root project directory.
