@@ -10,7 +10,7 @@ export default function Actions({
 	handleFocus,
 }) {
 	const {
-		user: { uid: userId = '' },
+		user: { uid: userId },
 	} = useContext(UserContext);
 	const [toggleLiked, setToggleLiked] = useState(likedPhoto);
 	const [likes, setLikes] = useState(totalLikes);
