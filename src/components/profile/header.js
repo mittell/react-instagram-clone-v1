@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import Skeleton from 'react-loading-skeleton';
 import useUser from '../../hooks/use-user';
@@ -18,7 +18,7 @@ export default function Header({
 	followerCount,
 	setFollowerCount,
 }) {
-	const { user: loggedInUser } = useUser(UserContext);
+	const { user: loggedInUser } = useContext(UserContext);
 	const { user } = useUser(loggedInUser?.uid);
 	const [isFollowingProfile, setIsFollowingProfile] = useState(false);
 	const activeBtnFollow = user?.username && user?.username !== profileUsername;
