@@ -1,0 +1,44 @@
+/* eslint-disable testing-library/prefer-screen-queries */
+import React from 'react';
+import { render, fireEvent, waitFor } from '@testing-library/react';
+import Login from '../../pages/login';
+import FirebaseContext from '../../context/firebase';
+import { BrowserRouter as Router } from 'react-router-dom';
+
+const mockHistoryPush = jest.fn();
+jest.mock('react-router-dom', () => ({
+	...jest.requireActual('react-router-dom'),
+	useHistory: () => ({
+		push: mockHistoryPush,
+	}),
+}));
+
+describe('<Login/>', () => {
+	it('renders the login page with a form submission and logs the user in', () => {
+		const firebase = {
+			auth: jest.fn(() => ({
+				signInWithEmailAndPassword: jest.fn(() =>
+					Promise.resolve('I am signed in!')
+				),
+			})),
+		};
+
+		const { getByTestId, getByPlaceholderText, queryByTestId } = render(
+			<Router>
+				<FirebaseContext.Provider value={{ firebase }}>
+					<Login />
+				</FirebaseContext.Provider>
+			</Router>
+		);
+
+		expect(document.title).toEqual('Login - Instasnap');
+
+		fireEvent.change(getByPlaceholderText('Email address'), {
+			target: { value: 'cmittell@gmail.com' },
+		});
+
+		fireEvent.change(getByPlaceholderText('Password'), {
+			target: { value: 'test' },
+		});
+	});
+});
