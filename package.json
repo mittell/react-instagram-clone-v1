@@ -38,7 +38,7 @@
 			"!<rootDir>/src/fixtures/*.js",
 			"!<rootDir>/src/hooks/*.js",
 			"!<rootDir>/src/helpers/*.js",
-			"!<rootDir>/src/services/firebase/*.js"
+			"!<rootDir>/src/services/firebase.js"
 		],
 		"coverageThreshold": {
 			"global": {
@@ -47,7 +47,6 @@
 				"lines": 90,
 				"statements": 90
 			}
-			
 		},
 		"coverageReporters": [
 			"html",
