@@ -2,7 +2,7 @@
 export function seedDatabase(firebase) {
 	const users = [
 		{
-			userId: 'vUqzGYXQ5xVCOaSWKctImtyiC5v1',
+			userId: 'nt3A9ZGRiqPShndOs3SJmlX6tk63',
 			username: 'chris',
 			fullName: 'Chris Mittell',
 			emailAddress: 'cmittell@gmail.com',
@@ -11,30 +11,75 @@ export function seedDatabase(firebase) {
 			dateCreated: Date.now(),
 		},
 		{
-			userId: '2',
-			username: 'raphael',
-			fullName: 'Raffaello Sanzio da Urbino',
-			emailAddress: 'raphael@sanzio.com',
+			userId: 'hqfv3JJe5ZQ494CiYBRNDZS5Qh63',
+			username: 'demo',
+			fullName: 'Demo User',
+			emailAddress: 'demo@instasnap.com',
 			following: [],
-			followers: ['vUqzGYXQ5xVCOaSWKctImtyiC5v1'],
+			followers: ['nt3A9ZGRiqPShndOs3SJmlX6tk63'],
+			dateCreated: Date.now(),
+		},
+		{
+			userId: '2',
+			username: 'adam',
+			fullName: 'Adam Smyth',
+			emailAddress: 'admans@instasnap.com',
+			following: [],
+			followers: ['nt3A9ZGRiqPShndOs3SJmlX6tk63'],
 			dateCreated: Date.now(),
 		},
 		{
 			userId: '3',
-			username: 'dali',
-			fullName: 'Salvador Dalí',
-			emailAddress: 'salvador@dali.com',
+			username: 'hannah',
+			fullName: 'Hannah Thompson',
+			emailAddress: 'hannaht@instasnap.com',
 			following: [],
-			followers: ['vUqzGYXQ5xVCOaSWKctImtyiC5v1'],
+			followers: ['nt3A9ZGRiqPShndOs3SJmlX6tk63'],
 			dateCreated: Date.now(),
 		},
 		{
 			userId: '4',
-			username: 'orwell',
-			fullName: 'George Orwell',
-			emailAddress: 'george@orwell.com',
+			username: 'jane',
+			fullName: 'Jane Owens',
+			emailAddress: 'janeo@instasnap.com',
 			following: [],
-			followers: ['vUqzGYXQ5xVCOaSWKctImtyiC5v1'],
+			followers: ['nt3A9ZGRiqPShndOs3SJmlX6tk63'],
+			dateCreated: Date.now(),
+		},
+		{
+			userId: '5',
+			username: 'lin',
+			fullName: 'Lin Chen',
+			emailAddress: 'linc@instasnap.com',
+			following: [],
+			followers: ['nt3A9ZGRiqPShndOs3SJmlX6tk63'],
+			dateCreated: Date.now(),
+		},
+		{
+			userId: '6',
+			username: 'robert',
+			fullName: 'Rob Goyer',
+			emailAddress: 'robg@instasnap.com',
+			following: [],
+			followers: ['nt3A9ZGRiqPShndOs3SJmlX6tk63'],
+			dateCreated: Date.now(),
+		},
+		{
+			userId: '7',
+			username: 'simeon',
+			fullName: 'Simeon Patric',
+			emailAddress: 'simeonp@instasnap.com',
+			following: [],
+			followers: ['nt3A9ZGRiqPShndOs3SJmlX6tk63'],
+			dateCreated: Date.now(),
+		},
+		{
+			userId: '8',
+			username: 'sarah',
+			fullName: 'Sarah Zellis',
+			emailAddress: 'sarahz@instasnap.com',
+			following: [],
+			followers: ['nt3A9ZGRiqPShndOs3SJmlX6tk63'],
 			dateCreated: Date.now(),
 		},
 	];
@@ -45,23 +90,167 @@ export function seedDatabase(firebase) {
 	}
 
 	// eslint-disable-next-line prefer-const
-	for (let i = 1; i <= 5; ++i) {
+	for (let i = 1; i <= 3; ++i) {
+		firebase
+			.firestore()
+			.collection('photos')
+			.add({
+				photoId: i,
+				userId: 'nt3A9ZGRiqPShndOs3SJmlX6tk63',
+				imageSrc: `/images/users/chris/${i}.jpg`,
+				caption: 'This is a photo I have taken...',
+				likes: [],
+				comments: [
+					{
+						displayName: 'jim',
+						comment: 'Nice photo!',
+					},
+					{
+						displayName: 'george',
+						comment: 'Would you mind if I used this picture?',
+					},
+				],
+				userLatitude: '40.7128°',
+				userLongitude: '74.0060°',
+				dateCreated: Date.now(),
+			});
+
 		firebase
 			.firestore()
 			.collection('photos')
 			.add({
 				photoId: i,
 				userId: '2',
-				imageSrc: `/images/users/raphael/${i}.jpg`,
-				caption: 'Saint George and the Dragon',
+				imageSrc: `/images/users/adam/${i}.jpg`,
+				caption: 'This is a photo I have taken...',
 				likes: [],
 				comments: [
 					{
-						displayName: 'dali',
-						comment: 'Love this place, looks like my animal farm!',
+						displayName: 'jim',
+						comment: 'Nice photo!',
 					},
 					{
-						displayName: 'orwell',
+						displayName: 'george',
+						comment: 'Would you mind if I used this picture?',
+					},
+				],
+				userLatitude: '40.7128°',
+				userLongitude: '74.0060°',
+				dateCreated: Date.now(),
+			});
+
+		firebase
+			.firestore()
+			.collection('photos')
+			.add({
+				photoId: i,
+				userId: '3',
+				imageSrc: `/images/users/hannah/${i}.jpg`,
+				caption: 'This is a photo I have taken...',
+				likes: [],
+				comments: [
+					{
+						displayName: 'jim',
+						comment: 'Nice photo!',
+					},
+					{
+						displayName: 'george',
+						comment: 'Would you mind if I used this picture?',
+					},
+				],
+				userLatitude: '40.7128°',
+				userLongitude: '74.0060°',
+				dateCreated: Date.now(),
+			});
+
+		firebase
+			.firestore()
+			.collection('photos')
+			.add({
+				photoId: i,
+				userId: '4',
+				imageSrc: `/images/users/jane/${i}.jpg`,
+				caption: 'This is a photo I have taken...',
+				likes: [],
+				comments: [
+					{
+						displayName: 'jim',
+						comment: 'Nice photo!',
+					},
+					{
+						displayName: 'george',
+						comment: 'Would you mind if I used this picture?',
+					},
+				],
+				userLatitude: '40.7128°',
+				userLongitude: '74.0060°',
+				dateCreated: Date.now(),
+			});
+
+		firebase
+			.firestore()
+			.collection('photos')
+			.add({
+				photoId: i,
+				userId: '5',
+				imageSrc: `/images/users/lin/${i}.jpg`,
+				caption: 'This is a photo I have taken...',
+				likes: [],
+				comments: [
+					{
+						displayName: 'jim',
+						comment: 'Nice photo!',
+					},
+					{
+						displayName: 'george',
+						comment: 'Would you mind if I used this picture?',
+					},
+				],
+				userLatitude: '40.7128°',
+				userLongitude: '74.0060°',
+				dateCreated: Date.now(),
+			});
+
+		firebase
+			.firestore()
+			.collection('photos')
+			.add({
+				photoId: i,
+				userId: '6',
+				imageSrc: `/images/users/robert/${i}.jpg`,
+				caption: 'This is a photo I have taken...',
+				likes: [],
+				comments: [
+					{
+						displayName: 'jim',
+						comment: 'Nice photo!',
+					},
+					{
+						displayName: 'george',
+						comment: 'Would you mind if I used this picture?',
+					},
+				],
+				userLatitude: '40.7128°',
+				userLongitude: '74.0060°',
+				dateCreated: Date.now(),
+			});
+
+		firebase
+			.firestore()
+			.collection('photos')
+			.add({
+				photoId: i,
+				userId: '8',
+				imageSrc: `/images/users/sarah/${i}.jpg`,
+				caption: 'This is a photo I have taken...',
+				likes: [],
+				comments: [
+					{
+						displayName: 'jim',
+						comment: 'Nice photo!',
+					},
+					{
+						displayName: 'george',
 						comment: 'Would you mind if I used this picture?',
 					},
 				],
