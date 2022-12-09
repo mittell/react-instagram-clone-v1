@@ -13,6 +13,18 @@ import { getUserByUserId } from '../../services/firebase';
 import userFixture from '../../fixtures/logged-in-user';
 import { act } from 'react-dom/test-utils';
 
+const firebase = {
+	auth: jest.fn(() => ({
+		createUserWithEmailAndPassword: jest.fn(() =>
+			Promise.resolve({
+				user: {
+					updateProfile: jest.fn(() => Promise.resolve('I am signed up!')),
+				},
+			})
+		),
+	})),
+};
+
 jest.mock('../../services/firebase');
 
 describe('<NotFound/>', () => {
@@ -22,7 +34,7 @@ describe('<NotFound/>', () => {
 		await act(async () => {
 			const { queryByText } = render(
 				<Router>
-					<FirebaseContext.Provider value={{}}>
+					<FirebaseContext.Provider value={{ firebase }}>
 						<UserContext.Provider value={{ user: { uid: 1 } }}>
 							<NotFound />
 						</UserContext.Provider>
@@ -43,7 +55,7 @@ describe('<NotFound/>', () => {
 		await act(async () => {
 			const { queryByText } = render(
 				<Router>
-					<FirebaseContext.Provider value={{}}>
+					<FirebaseContext.Provider value={{ firebase }}>
 						<UserContext.Provider value={{ user: {} }}>
 							<NotFound />
 						</UserContext.Provider>

@@ -71,6 +71,7 @@ describe('<Login/>', () => {
 		const failedToLogin = jest.fn(() =>
 			Promise.reject(new Error('Cannot sign in'))
 		);
+
 		const firebase = {
 			auth: jest.fn(() => ({
 				signInWithEmailAndPassword: failedToLogin,
