@@ -4,13 +4,7 @@
 /* eslint-disable testing-library/no-unnecessary-act */
 
 import React from 'react';
-import {
-	render,
-	waitFor,
-	fireEvent,
-	getAllByText,
-	getByAltText,
-} from '@testing-library/react';
+import { render, waitFor, fireEvent } from '@testing-library/react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { act } from 'react-dom/test-utils';
 import Dashboard from '../../pages/dashboard';
@@ -22,6 +16,15 @@ import photosFixture from '../../fixtures/timeline-photos';
 import suggestedProfilesFixture from '../../fixtures/suggested-profiles';
 import { getPhotos, getSuggestedProfiles } from '../../services/firebase';
 import useUser from '../../hooks/use-user';
+
+const mockHistoryPush = jest.fn();
+jest.mock('react-router-dom', () => ({
+	...jest.requireActual('react-router-dom'),
+	useParams: () => ({ username: 'orwell' }),
+	useHistory: () => ({
+		push: mockHistoryPush,
+	}),
+}));
 
 jest.mock('../../services/firebase');
 jest.mock('../../hooks/use-user');
@@ -37,27 +40,25 @@ describe('<Dashboard/>', () => {
 			getSuggestedProfiles.mockImplementation(() => suggestedProfilesFixture);
 			useUser.mockImplementation(() => ({ user: userFixture }));
 
-			const firebase = {
-				firestore: jest.fn(() => ({
-					collection: jest.fn(() => ({
-						doc: jest.fn(() => ({
-							update: jest.fn(() => Promise.resolve('User added')),
-						})),
-					})),
-				})),
-			};
-
-			const fieldValues = {
-				arrayUnion: jest.fn(),
-				arrayRemove: jest.fn(),
-			};
-
 			const { getByText, getByTitle, getAllByText, getByAltText, getByTestId } =
 				render(
 					<Router>
-						:
 						<FirebaseContext.Provider
-							value={{ firebase, FieldValue: fieldValues }}
+							value={{
+								firebase: {
+									firestore: jest.fn(() => ({
+										collection: jest.fn(() => ({
+											doc: jest.fn(() => ({
+												update: jest.fn(() => Promise.resolve('User added')),
+											})),
+										})),
+									})),
+								},
+								FieldValue: {
+									arrayUnion: jest.fn(),
+									arrayRemove: jest.fn(),
+								},
+							}}
 						>
 							<UserContext.Provider
 								value={{
@@ -112,6 +113,103 @@ describe('<Dashboard/>', () => {
 				fireEvent.submit(
 					getByTestId('add-comment-submit-494LKmaF03bUcYZ4xhNu')
 				);
+			});
+		});
+	});
+
+	it('renders the dashboard with a user profile of undefined to trigger fallbacks', async () => {
+		await act(async () => {
+			getPhotos.mockImplementation(() => photosFixture);
+			getSuggestedProfiles.mockImplementation(() => suggestedProfilesFixture);
+			useUser.mockImplementation(() => ({ user: undefined }));
+
+			const { getByText } = render(
+				<Router>
+					<FirebaseContext.Provider
+						value={{
+							firebase: {
+								auth: jest.fn(() => ({
+									signOut: jest.fn(() => ({
+										updateProfile: jest.fn(() => Promise.resolve({})),
+									})),
+								})),
+							},
+						}}
+					>
+						<UserContext.Provider
+							value={{
+								user: {
+									uid: 'vUqzGYXQ5xVCOaSWKctImtyiC5v1',
+									displayName: 'User',
+								},
+							}}
+						>
+							<LoggedInUserContext.Provider value={{ user: userFixture }}>
+								<Dashboard
+									user={{
+										uid: 'vUqzGYXQ5xVCOaSWKctImtyiC5v1',
+										displayName: 'User',
+									}}
+								/>
+							</LoggedInUserContext.Provider>
+						</UserContext.Provider>
+					</FirebaseContext.Provider>
+				</Router>
+			);
+
+			expect(getByText('Login')).toBeTruthy();
+			expect(getByText('Sign Up')).toBeTruthy();
+		});
+	});
+
+	it('renders the dashboard with a user profile and has no suggested profile', async () => {
+		await act(async () => {
+			getPhotos.mockImplementation(() => photosFixture);
+			getSuggestedProfiles.mockImplementation(() => []);
+			useUser.mockImplementation(() => ({ user: userFixture }));
+
+			const { queryByText } = render(
+				<Router>
+					<FirebaseContext.Provider
+						value={{
+							firebase: {
+								firestore: jest.fn(() => ({
+									collection: jest.fn(() => ({
+										doc: jest.fn(() => ({
+											update: jest.fn(() => Promise.resolve('User added')),
+										})),
+									})),
+								})),
+							},
+							FieldValue: {
+								arrayUnion: jest.fn(),
+								arrayRemove: jest.fn(),
+							},
+						}}
+					>
+						<UserContext.Provider
+							value={{
+								user: {
+									uid: 'vUqzGYXQ5xVCOaSWKctImtyiC5v1',
+									displayName: 'User',
+								},
+							}}
+						>
+							<LoggedInUserContext.Provider value={{ user: userFixture }}>
+								<Dashboard
+									user={{
+										uid: 'vUqzGYXQ5xVCOaSWKctImtyiC5v1',
+										displayName: 'User',
+									}}
+								/>
+							</LoggedInUserContext.Provider>
+						</UserContext.Provider>
+					</FirebaseContext.Provider>
+				</Router>
+			);
+
+			await waitFor(() => {
+				expect(queryByText('Suggestions for you')).toBeFalsy();
 			});
 		});
 	});
