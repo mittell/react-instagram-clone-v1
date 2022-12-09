@@ -57,13 +57,13 @@ export default function Header({
 			<div className='container flex justify-center items-center'>
 				{profileUsername ? (
 					<img
-						className='rounded-full h-40 w-40 flex'
+						className='rounded-full h-20 w-20 md:h-28 md:w-28 lg:h-40 lg:w-40 flex'
 						alt={`${profileUsername} profile`}
 						src={`/images/avatars/${profileUsername}.jpg`}
 					/>
 				) : (
 					<img
-						className='rounded-full h-40 w-40 flex'
+						className='rounded-full h-20 w-20 md:h-28 md:w-28 lg:h-40 lg:w-40 flex'
 						alt={`default profile`}
 						src={`/images/avatars/default.png`}
 					/>
@@ -87,7 +87,7 @@ export default function Header({
 						</button>
 					)}
 				</div>
-				<div className='container flex mt-4'>
+				<div className='container flex mt-4 flex-col lg:flex-row'>
 					{!followers || !following ? (
 						<Skeleton count={1} width={677} height={24} />
 					) : (
