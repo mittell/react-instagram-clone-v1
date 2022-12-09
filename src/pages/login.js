@@ -83,7 +83,7 @@ export default function Login() {
 						</button>
 					</form>
 				</div>
-				<div className='flex justify-center items-center flex-col w-full bg-white p-4 rounded border border-gray-primary'>
+				{/* <div className='flex justify-center items-center flex-col w-full bg-white p-4 rounded border border-gray-primary'>
 					<p className='text-sm'>
 						Don't have an account?{' '}
 						<Link
@@ -94,7 +94,7 @@ export default function Login() {
 							Sign up
 						</Link>
 					</p>
-				</div>
+				</div> */}
 			</div>
 		</div>
 	);
